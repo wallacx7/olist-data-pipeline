@@ -1,0 +1,28 @@
+# Segredos e credenciais
+.env
+keys/
+*.json
+!dbt/**/*.json
+
+# Airflow
+logs/
+airflow.cfg
+airflow.db
+standalone_admin_password.txt
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+dbt/.user.yml
+
+# Dados brutos (não versionar CSVs grandes)
+data/raw/*.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS
+.DS_Store
