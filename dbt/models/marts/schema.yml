@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: fct_pedidos
+    description: Tabela fato com grão de item do pedido.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: order_item_id
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_produtos')
+                field: product_id
+      - name: seller_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_vendedores')
+                field: seller_id
+      - name: customer_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_clientes')
+                field: customer_id
+      - name: price
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true
+
+  - name: dim_clientes
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_produtos
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_vendedores
+    columns:
+      - name: seller_id
+        tests:
+          - unique
+          - not_null
