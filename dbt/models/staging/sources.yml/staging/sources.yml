@@ -1,0 +1,28 @@
+version: 2
+
+sources:
+  - name: olist_raw
+    description: >
+      Dados crus do dataset público Olist (e-commerce brasileiro), carregados
+      pelo Airflow via ingestão ELT (sem transformação, schema autodetectado).
+    database: olist-data-pipeline-503121
+    schema: olist_raw
+    tables:
+      - name: orders
+        description: Pedidos realizados na plataforma.
+      - name: customers
+        description: Clientes cadastrados.
+      - name: order_items
+        description: Itens (produtos) que compõem cada pedido.
+      - name: products
+        description: Catálogo de produtos.
+      - name: sellers
+        description: Vendedores (marketplace) da plataforma.
+      - name: order_payments
+        description: Pagamentos associados a cada pedido.
+      - name: order_reviews
+        description: Avaliações (reviews) feitas pelos clientes sobre os pedidos.
+      - name: geolocation
+        description: Dados de geolocalização por CEP.
+      - name: product_category_translation
+        description: Tradução dos nomes de categoria de produto (PT → EN).
