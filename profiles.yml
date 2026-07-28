@@ -1,0 +1,82 @@
+user:
+  outputs:
+    default:
+      keyfile_json:
+        auth_provider_x509_cert_url: https://www.googleapis.com/oauth2/v1/certs
+        auth_uri: https://accounts.google.com/o/oauth2/auth
+        client_email: olist-pipeline@olist-data-pipeline-503121.iam.gserviceaccount.com
+        client_id: '114970085183336869310'
+        client_x509_cert_url: https://www.googleapis.com/robot/v1/metadata/x509/olist-pipeline%40olist-data-pipeline-503121.iam.gserviceaccount.com
+        private_key: '-----BEGIN PRIVATE KEY-----
+
+          MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDV+eQEUmvZbqjH
+
+          hGbhUUndQcLHNZx+Fe8QmpcEpSE2144xu92DMnS1RZUpEvuIiyPDG411XXU9Hsgr
+
+          Tjz85ZxzoPucwr9SnywkeRo2isetE1b5mhcVez0NhB8KqEutKCdGHV0QU+aPrtEC
+
+          0wH84sTMdtm40pLfeXN4HI8+PoSWAT4nXvTtLfUaasdNQOYXPV+PN5wIar5fkQTK
+
+          dm/7XSI1da7F69QNDNtAsU1G8FE/1qt9nXcTUNnFK4mul7ouiLwdyvXKA1Hmorhz
+
+          +09Mtrv7l7oJ7HckWJU9BBw8DgsEC08cwY9WACtrsMc+0T5ji+cGFiLL8h5fD5Jr
+
+          3XgY97/bAgMBAAECggEAL3MjukWgvu3IJb5ZphuFmrgLfmuIEXnBstflJ1WLAQNZ
+
+          9/NmEsLsmIoeoqYf+06HlquUefNInU4nK1tFMPul7wpC4adaD/NWMZxdUL0DvICu
+
+          Z9lgxxW2GzoyPAXIClT+KJE4YveICFLG7K5oIXEUHRc5/r9LbJ0dGwSSS0ZH1o91
+
+          6wOpQxhR5OyDC3svVrEK5CpHQqGrlJEz/6RGJrfs+KL0TfbRicsS/wyGerkoiA/M
+
+          3rhXlya3SvXcH7N1r7jDF48VBoZK+00oEzdFX/jpQ+XzKp9Z4E1zFAzkUIE/5y7a
+
+          /xnXhFl0dKXcvkTKstZn1iMlNNJ3Y6TQYTzaVu9WcQKBgQD7mWnqS30rArHVEhBX
+
+          +peQ+b4LrvD9Lx6jPFpYTKl1IJWRpVmO5g6H7ou3/AlWrppV++gyNMVAsVyqNuXL
+
+          WZF1e0k2jS4viCyLnrp6WL16k3F0Ec4P66yuE824y5VeKZGYdK+wJ5SGlyRHUKgb
+
+          JcJL1IMoaBsvSvuHaE1R+qBFGQKBgQDZuAMF5b65IAMSL2IuE58+b533fMcHPYDe
+
+          Sk3yZDTRV1IjIqpXUf+q/S4ZfUmr7gIrktgEotMkgacvRYjdh9tXeBqwQQ34Hhf7
+
+          C9YXdpohPruPXHZ4R2RYAxOKFHC0vMNXZRmhETKTDgnyjKJY/dNIW6OnTNuQHRN2
+
+          GFhDgRR3EwKBgAPJCRjnTdjJz5cfEHPiZ0ldGIjgduu4O8PE8q8FaD9E4Dsyu6g0
+
+          ud89rYh1GEbflZ7ZjWLD/Hu+r2A4NzjZ/iBAXJefhCRe7hyjpLaWgzNG6JwQcIM4
+
+          zn5H+f5fwb2K7o/WoZYK4mcr+vW/tufBp6ywY9DF0DLj8+jTnuYu2R5xAoGBAMpv
+
+          FiB9pgBri291L0y4YfCjx7U+B7Drts75N9CQ66taDb0tlkTqsVZDYoHAxKdf/hSV
+
+          zNVCsB/ZjaGefcu9bmy999K6KkrxcEq0jrPySw1uTubVijH774kGEzzoFIN4oAi6
+
+          sEHaw7OH8ifcK3ejSriUvG3qQJyW7Gl56VeaxXSRAoGBAITbhv4fdTnzIonYbcz8
+
+          if5gI1zVFWM1XIYVyzEYQs1Twrh0H6Gu0PVtS0Ac36GyUvihFwLEk/VAofdVp3mM
+
+          FsWNm85/UuNvPXblV20VKw97jVYpvG3Dh40mQY74VCNIepMHmylCl9fWeF+tgx1c
+
+          bu5lGbMQmFEu874theFVciS+
+
+          -----END PRIVATE KEY-----
+
+          '
+        private_key_id: 791f651c970e00c2e8242fa833254227ed7f6602
+        project_id: olist-data-pipeline-503121
+        token_uri: https://oauth2.googleapis.com/token
+        type: service_account
+      method: service-account-json
+      project: olist-data-pipeline-503121
+      schema: dbt_wmagalhaees
+      scopes:
+      - https://www.googleapis.com/auth/bigquery
+      - https://www.googleapis.com/auth/cloud-platform
+      - https://www.googleapis.com/auth/drive
+      - https://www.googleapis.com/auth/userinfo.email
+      target_name: default
+      threads: 4
+      type: bigquery
+  target: default

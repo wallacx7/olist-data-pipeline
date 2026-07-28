@@ -1,0 +1,341 @@
+==================== 2026-07-23T12:48:00.518262Z | 00000000-0000-0000-0000-000000000000 ====================
+==================== 2026-07-23T12:48:00.518369Z | f73cfe88-a982-4b3d-877c-4c72e71b890f ====================
+12:48:00.518387 [info ]: Starting dbt LSP server
+12:48:00.518409 [info ]: Connecting to LSP client on port 33449
+12:48:00.518648 [info ]: Successfully connected to LSP client
+12:48:00.518668 [info ]: Creating LSP service...
+12:48:00.519416 [info ]: Creating LSP server...
+12:48:00.519431 [info ]: Starting LSP server...
+12:48:00.966997 [info ]: Started loading project
+12:48:00.967082 [info ]: Finished loading project [  0.00s]
+==================== 2026-07-23T12:50:47.271827Z | 00000000-0000-0000-0000-000000000000 ====================
+==================== 2026-07-23T12:50:47.271946Z | 8486759e-51ff-49a1-8fc1-862bb47aab9c ====================
+12:50:47.271965 [info ]: Starting dbt LSP server
+12:50:47.271980 [info ]: Connecting to LSP client on port 53085
+12:50:47.272191 [info ]: Successfully connected to LSP client
+12:50:47.272207 [info ]: Creating LSP service...
+12:50:47.273016 [info ]: Creating LSP server...
+12:50:47.273031 [info ]: Starting LSP server...
+12:50:47.656900 [info ]: Started loading project
+12:50:47.656995 [info ]: Finished loading project [  0.00s]
+==================== 2026-07-23T12:50:58.279058Z | 00000000-0000-0000-0000-000000000000 ====================
+==================== 2026-07-23T12:50:58.279167Z | 0a20a190-bbbb-4342-a607-d1178722b8e1 ====================
+12:50:58.279185 [info ]: Starting dbt LSP server
+12:50:58.279202 [info ]: Connecting to LSP client on port 46873
+12:50:58.279417 [info ]: Successfully connected to LSP client
+12:50:58.279431 [info ]: Creating LSP service...
+12:50:58.280162 [info ]: Creating LSP server...
+12:50:58.280176 [info ]: Starting LSP server...
+12:50:58.706889 [info ]: Started loading project
+12:50:58.706944 [info ]: Finished loading project [  0.00s]
+12:53:04.476845 [info ]: Loading profiles.yml
+12:53:04.478736 [info ]: Started loading project
+12:53:04.478910 [info ]: Loading profiles.yml
+12:53:04.484547 [debug]:    Started loading packages
+12:53:04.484753 [debug]:     Failed [  0.00s] packages (error: YAML error: missing field `name`)
+12:53:04.484822 [info ]: Finished loading project [  0.01s]
+12:53:05.549463 [info ]: Started loading project
+12:53:05.549610 [info ]: Loading profiles.yml
+12:53:05.555052 [debug]:    Started loading packages
+12:53:05.555162 [debug]:     Failed [  0.00s] packages (error: YAML error: missing field `name`)
+12:53:05.555239 [info ]: Finished loading project [  0.01s]
+12:53:14.657091 [info ]: Started loading project
+12:53:14.657660 [info ]: Loading profiles.yml
+12:53:14.663073 [debug]:    Started loading packages
+12:53:14.663620 [debug]:     Loaded [  0.00s] packages
+12:53:14.664249 [info ]: Finished loading project [  0.01s]
+12:53:14.664525 [info ]: Started parsing
+12:53:14.696187 [warn ]: [UnusedResourceConfigPath (dbt1097)]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 2 unused configuration paths:
+- models.olist_data_pipeline.marts
+- models.olist_data_pipeline.staging
+12:53:14.697039 [info ]: Cached model count updated: 0 models (estimate)
+12:53:14.697052 [info ]: Cached model count updated: 0 models (accurate)
+12:53:14.697088 [info ]: Started scheduling
+12:53:14.697135 [info ]: Finished scheduling [  0.00s]
+12:53:14.697155 [debug]: Compilation - 0 nodes selected: {}
+12:53:14.697187 [warn ]: [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion '' does not match any enabled nodes
+12:53:14.697198 [warn ]: [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args
+12:53:14.697207 [info ]: Started scheduling
+12:53:14.697217 [info ]: Finished scheduling [  0.00s]
+12:53:14.703190 [debug]: No platform credentials found, skipping remote license
+12:53:14.703485 [info ]: Started building task graph
+12:53:14.703518 [info ]: Finished building task graph [  0.00s]
+12:53:14.707791 [info ]: Started scheduling
+12:53:14.707826 [info ]: Finished scheduling [  0.00s]
+12:53:14.708143 [info ]: Cached model count updated: 0 models (accurate)
+12:53:14.708163 [info ]: Finished parsing [  0.04s]
+12:53:17.146932 [info ]: Started loading project
+12:53:17.147174 [info ]: Loading profiles.yml
+12:53:17.169442 [info ]: Cached model count updated: 0 models (estimate)
+12:53:17.169467 [info ]: Cached model count updated: 0 models (accurate)
+12:53:17.169483 [info ]: Started scheduling
+12:53:17.169506 [info ]: Finished scheduling [  0.00s]
+12:53:17.169521 [debug]: Compilation - 0 nodes selected: {}
+12:53:17.169547 [warn ]: [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args
+12:53:17.170645 [info ]: Started building task graph
+12:53:17.170667 [info ]: Finished building task graph [  0.00s]
+12:53:17.173929 [info ]: Started scheduling
+12:53:17.173962 [info ]: Finished scheduling [  0.00s]
+12:53:17.174063 [info ]: Finished loading project [  0.03s]
+12:53:17.174287 [info ]: Cached model count updated: 0 models (accurate)
+12:54:25.377034 [info ]: Loading profiles.yml
+12:54:25.566852 [info ]: Started loading project
+12:54:25.567094 [info ]: Loading profiles.yml
+12:54:25.591756 [info ]: Finished loading project [  0.02s]
+12:54:25.592066 [info ]: Cached model count updated: 0 models (accurate)
+12:54:26.156985 [info ]: Started loading project
+12:54:26.157206 [info ]: Loading profiles.yml
+12:54:26.187716 [info ]: Finished loading project [  0.03s]
+12:54:26.188057 [info ]: Cached model count updated: 0 models (accurate)
+12:54:27.107047 [info ]: Started loading project
+12:54:27.107298 [info ]: Loading profiles.yml
+12:54:27.131735 [info ]: Finished loading project [  0.02s]
+12:54:27.132042 [info ]: Cached model count updated: 0 models (accurate)
+12:54:28.817011 [info ]: Started loading project
+12:54:28.817219 [info ]: Loading profiles.yml
+12:54:28.820205 [info ]: Started loading project
+12:54:28.820368 [info ]: Loading profiles.yml
+12:54:28.820401 [info ]: Finished loading project [  0.00s]
+12:54:28.825688 [debug]:    Started loading packages
+12:54:28.826210 [debug]:     Loaded [  0.00s] packages
+12:54:28.826840 [info ]: Finished loading project [  0.01s]
+12:54:28.827011 [info ]: Started parsing
+12:54:28.852554 [debug]: Finished parsing models/staging/sources.yml [  0.00s]
+12:54:28.854854 [warn ]: [UnusedResourceConfigPath (dbt1097)]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 2 unused configuration paths:
+- models.olist_data_pipeline.marts
+- models.olist_data_pipeline.staging
+12:54:28.855587 [info ]: Cached model count updated: 0 models (estimate)
+12:54:28.855603 [info ]: Cached model count updated: 0 models (accurate)
+12:54:28.855616 [info ]: Started scheduling
+12:54:28.855655 [info ]: Finished scheduling [  0.00s]
+12:54:28.855669 [debug]: Compilation - 0 nodes selected: {}
+12:54:28.855708 [warn ]: [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args
+12:54:28.855722 [info ]: Started scheduling
+12:54:28.855726 [info ]: Finished scheduling [  0.00s]
+12:54:28.856616 [info ]: Started building task graph
+12:54:28.856636 [info ]: Finished building task graph [  0.00s]
+12:54:28.860315 [info ]: Started scheduling
+12:54:28.860358 [info ]: Finished scheduling [  0.00s]
+12:54:28.862403 [info ]: Cached model count updated: 0 models (accurate)
+12:54:28.862465 [info ]: Finished parsing [  0.04s]
+12:54:38.716977 [info ]: Started loading project
+12:54:38.717212 [info ]: Loading profiles.yml
+12:54:38.722086 [info ]: Started parsing
+12:54:38.758168 [info ]: Finished loading project [  0.04s]
+12:54:38.758893 [debug]: Finished parsing models/staging/sources.yml [  0.00s]
+12:54:38.760606 [warn ]: [UnusedResourceConfigPath (dbt1097)]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 2 unused configuration paths:
+- models.olist_data_pipeline.marts
+- models.olist_data_pipeline.staging
+12:54:38.762407 [info ]: Cached model count updated: 0 models (estimate)
+12:54:38.762421 [info ]: Cached model count updated: 0 models (accurate)
+12:54:38.762443 [info ]: Started scheduling
+12:54:38.762508 [info ]: Finished scheduling [  0.00s]
+12:54:38.762523 [debug]: Compilation - 0 nodes selected: {}
+12:54:38.762546 [warn ]: [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion '+source:olist_data_pipeline.olist_raw.order_reviews +source:olist_data_pipeline.olist_raw.products +source:olist_data_pipeline.olist_raw.orders +source:olist_data_pipeline.olist_raw.geolocation +source:olist_data_pipeline.olist_raw.order_payments +source:olist_data_pipeline.olist_raw.product_category_translation +source:olist_data_pipeline.olist_raw.sellers +source:olist_data_pipeline.olist_raw.customers +source:olist_data_pipeline.olist_raw.order_items' does not match any enabled nodes
+12:54:38.762560 [warn ]: [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args
+12:54:38.763218 [info ]: Started building task graph
+12:54:38.763237 [info ]: Finished building task graph [  0.00s]
+12:54:38.766701 [info ]: Started scheduling
+12:54:38.766782 [info ]: Finished scheduling [  0.00s]
+12:54:38.767645 [info ]: Cached model count updated: 0 models (accurate)
+12:54:38.767669 [info ]: Finished parsing [  0.05s]
+12:54:40.417230 [info ]: Started loading project
+12:54:40.417530 [info ]: Loading profiles.yml
+12:54:40.440568 [info ]: Cached model count updated: 0 models (estimate)
+12:54:40.440593 [info ]: Cached model count updated: 0 models (accurate)
+12:54:40.440617 [info ]: Started scheduling
+12:54:40.440659 [info ]: Finished scheduling [  0.00s]
+12:54:40.440675 [debug]: Compilation - 0 nodes selected: {}
+12:54:40.440692 [warn ]: [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args
+12:54:40.441784 [info ]: Started building task graph
+12:54:40.441807 [info ]: Finished building task graph [  0.00s]
+12:54:40.445192 [info ]: Started scheduling
+12:54:40.445232 [info ]: Finished scheduling [  0.00s]
+12:54:40.445324 [info ]: Finished loading project [  0.03s]
+12:54:40.445629 [info ]: Cached model count updated: 0 models (accurate)
+12:57:55.927380 [info ]: Started loading project
+12:57:55.927589 [info ]: Loading profiles.yml
+12:57:55.951713 [info ]: Finished loading project [  0.02s]
+12:57:55.952036 [info ]: Cached model count updated: 0 models (accurate)
+12:57:57.647040 [info ]: Started loading project
+12:57:57.647265 [info ]: Loading profiles.yml
+12:57:57.650386 [info ]: Started loading project
+12:57:57.650552 [info ]: Loading profiles.yml
+12:57:57.650588 [info ]: Finished loading project [  0.00s]
+12:57:57.655754 [debug]:    Started loading packages
+12:57:57.656597 [debug]:     Loaded [  0.00s] packages
+12:57:57.657753 [info ]: Finished loading project [  0.01s]
+12:57:57.658051 [info ]: Started parsing
+12:57:57.687114 [debug]: Finished parsing models/staging/sources.yml [  0.00s]
+12:57:57.688141 [debug]: Finished parsing models/staging/stg_orders.sql [  0.00s]
+12:57:57.689814 [warn ]: [UnusedResourceConfigPath (dbt1097)]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- models.olist_data_pipeline.marts
+12:57:57.690636 [info ]: Cached model count updated: 1 models (estimate)
+12:57:57.690650 [info ]: Cached model count updated: 1 models (accurate)
+12:57:57.690665 [info ]: Started scheduling
+12:57:57.690701 [info ]: Finished scheduling [  0.00s]
+12:57:57.690713 [debug]: Compilation - 0 nodes selected: {}
+12:57:57.690727 [warn ]: [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args
+12:57:57.690740 [info ]: Started scheduling
+12:57:57.690762 [info ]: Finished scheduling [  0.00s]
+12:57:57.691599 [info ]: Started building task graph
+12:57:57.691619 [info ]: Finished building task graph [  0.00s]
+12:57:57.695387 [info ]: Started scheduling
+12:57:57.695422 [info ]: Finished scheduling [  0.00s]
+12:57:57.697111 [info ]: Cached model count updated: 1 models (accurate)
+12:57:57.697165 [info ]: Finished parsing [  0.04s]
+12:58:05.888146 [info ]: Started loading project
+12:58:05.888442 [info ]: Loading profiles.yml
+12:58:05.895069 [info ]: Started parsing
+12:58:05.943004 [info ]: Finished loading project [  0.05s]
+12:58:05.946467 [debug]: Finished parsing models/staging/stg_orders.sql [  0.00s]
+12:58:05.948841 [warn ]: [UnusedResourceConfigPath (dbt1097)]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- models.olist_data_pipeline.marts
+12:58:05.952057 [info ]: Cached model count updated: 1 models (estimate)
+12:58:05.952076 [info ]: Cached model count updated: 1 models (accurate)
+12:58:05.952109 [info ]: Started scheduling
+12:58:05.952186 [info ]: Finished scheduling [  0.00s]
+12:58:05.952204 [debug]: Compilation - 1 nodes selected: {"model.olist_data_pipeline.stg_orders"}
+12:58:05.953550 [info ]: Started building task graph
+12:58:05.953628 [info ]: Finished building task graph [  0.00s]
+12:58:05.954315 [info ]: Started rendering (1 nodes)
+12:58:05.954345 [info ]: Started model dbt_wmagalhaees_staging.stg_orders
+12:58:05.954365 [debug]: Started rendering model dbt_wmagalhaees_staging.stg_orders
+12:58:05.954425 [info ]: Finished parsing [  0.06s]
+12:58:05.955324 [debug]: Compiled SQL for node model.olist_data_pipeline.stg_orders at target/.lsp/compiled/olist_data_pipeline/models/staging/stg_orders.sql
+12:58:05.955443 [debug]: Finished rendering [  0.00s] model dbt_wmagalhaees_staging.stg_orders [success]
+12:58:05.955467 [info ]: Finished rendering [  0.00s] (1 nodes, 0 skipped, 0 errors)
+12:58:05.955515 [info ]: Started analyzing (1 nodes)
+12:58:05.955533 [debug]: Started analyzing model dbt_wmagalhaees_staging.stg_orders
+12:58:05.973495 [debug]: Finished analyzing [  0.02s] model dbt_wmagalhaees_staging.stg_orders [success]
+12:58:05.973534 [info ]: Finished analyzing [  0.02s] (1 nodes, 0 skipped, 0 errors)
+12:58:05.973550 [info ]:  Succeeded [  0.02s] model dbt_wmagalhaees_staging.stg_orders (view)
+12:58:05.979581 [info ]: Started scheduling
+12:58:05.979671 [info ]: Finished scheduling [  0.00s]
+12:58:05.981085 [info ]: Cached model count updated: 1 models (accurate)
+12:58:07.666995 [info ]: Started loading project
+12:58:07.667207 [info ]: Loading profiles.yml
+12:58:07.684661 [info ]: Cached model count updated: 1 models (estimate)
+12:58:07.684687 [info ]: Cached model count updated: 1 models (accurate)
+12:58:07.684710 [info ]: Started scheduling
+12:58:07.684763 [info ]: Finished scheduling [  0.00s]
+12:58:07.684777 [debug]: Compilation - 1 nodes selected: {"model.olist_data_pipeline.stg_orders"}
+12:58:07.685761 [info ]: Started building task graph
+12:58:07.685799 [info ]: Finished building task graph [  0.00s]
+12:58:07.686385 [info ]: Started rendering (1 nodes)
+12:58:07.686409 [info ]: Started model dbt_wmagalhaees_staging.stg_orders
+12:58:07.686422 [debug]: Started rendering model dbt_wmagalhaees_staging.stg_orders
+12:58:07.686478 [info ]: Finished loading project [  0.02s]
+12:58:07.686656 [debug]: Compiled SQL for node model.olist_data_pipeline.stg_orders at target/.lsp/compiled/olist_data_pipeline/models/staging/stg_orders.sql
+12:58:07.686723 [debug]: Finished rendering [  0.00s] model dbt_wmagalhaees_staging.stg_orders [success]
+12:58:07.686738 [info ]: Finished rendering [  0.00s] (1 nodes, 0 skipped, 0 errors)
+12:58:07.686757 [info ]: Started analyzing (1 nodes)
+12:58:07.686767 [debug]: Started analyzing model dbt_wmagalhaees_staging.stg_orders
+12:58:07.687642 [debug]: Finished analyzing [  0.00s] model dbt_wmagalhaees_staging.stg_orders [success]
+12:58:07.687660 [info ]: Finished analyzing [  0.00s] (1 nodes, 0 skipped, 0 errors)
+12:58:07.687671 [info ]:  Succeeded [-------] model dbt_wmagalhaees_staging.stg_orders (view)
+12:58:07.690543 [info ]: Started scheduling
+12:58:07.690584 [info ]: Finished scheduling [  0.00s]
+12:58:07.690892 [info ]: Cached model count updated: 1 models (accurate)
+==================== 2026-07-23T13:02:51.348014Z | 00000000-0000-0000-0000-000000000000 ====================
+==================== 2026-07-23T13:02:51.348136Z | 5949fdfb-f0cc-4f8d-92fd-e4b737466c86 ====================
+13:02:51.348158 [info ]: Starting dbt LSP server
+13:02:51.348174 [info ]: Connecting to LSP client on port 49421
+13:02:51.348437 [info ]: Successfully connected to LSP client
+13:02:51.348457 [info ]: Creating LSP service...
+13:02:51.349322 [info ]: Creating LSP server...
+13:02:51.349337 [info ]: Starting LSP server...
+13:02:51.547333 [info ]: Loading profiles.yml
+13:02:51.737050 [info ]: Waiting for lease on 'target' directory
+13:02:52.026880 [info ]: Started loading project
+13:02:52.027175 [info ]: Loading profiles.yml
+13:02:52.032709 [debug]:    Started loading packages
+13:02:52.033298 [debug]:     Loaded [  0.00s] packages
+13:02:52.033976 [info ]: Finished loading project [  0.01s]
+13:02:52.034274 [info ]: Started parsing
+13:02:52.064253 [debug]: Finished parsing models/staging/sources.yml [  0.00s]
+13:02:52.065800 [debug]: Finished parsing models/staging/stg_orders.sql [  0.00s]
+13:02:52.067335 [warn ]: [UnusedResourceConfigPath (dbt1097)]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- models.olist_data_pipeline.marts
+13:02:52.068146 [info ]: Cached model count updated: 1 models (estimate)
+13:02:52.068160 [info ]: Cached model count updated: 1 models (accurate)
+13:02:52.068202 [info ]: Started scheduling
+13:02:52.068260 [info ]: Finished scheduling [  0.00s]
+13:02:52.068276 [debug]: Compilation - 0 nodes selected: {}
+13:02:52.068301 [warn ]: [NoNodesForSelectionCriteria (dbt1092)]: The selection criterion '' does not match any enabled nodes
+13:02:52.068312 [warn ]: [NoNodesSelected (dbt1601)]: Nothing to do. Try checking your model configs and model specification args
+13:02:52.068322 [info ]: Started scheduling
+13:02:52.068358 [info ]: Finished scheduling [  0.00s]
+13:02:52.068428 [debug]: Initializing schema store with entry: Frontier(CanonicalFqn { catalog: "olist-data-pipeline-503121", schema: "olist_raw", table: "orders" }) and interval: None
+13:02:52.074314 [debug]: No platform credentials found, skipping remote license
+13:02:52.074629 [info ]: Started building task graph
+13:02:52.074653 [info ]: Finished building task graph [  0.00s]
+13:02:52.078600 [info ]: Started scheduling
+13:02:52.078640 [info ]: Finished scheduling [  0.00s]
+13:02:52.078952 [info ]: Cached model count updated: 1 models (accurate)
+13:02:52.078972 [info ]: Finished parsing [  0.04s]
+13:02:54.446935 [info ]: Started loading project
+13:02:54.447152 [info ]: Loading profiles.yml
+13:02:54.469048 [info ]: Cached model count updated: 1 models (estimate)
+13:02:54.469073 [info ]: Cached model count updated: 1 models (accurate)
+13:02:54.469099 [info ]: Started scheduling
+13:02:54.469152 [info ]: Finished scheduling [  0.00s]
+13:02:54.469168 [debug]: Compilation - 1 nodes selected: {"model.olist_data_pipeline.stg_orders"}
+13:02:54.470352 [info ]: Started building task graph
+13:02:54.470416 [info ]: Finished building task graph [  0.00s]
+13:02:54.471244 [info ]: Started rendering (1 nodes)
+13:02:54.471268 [info ]: Started model dbt_wmagalhaees_staging.stg_orders
+13:02:54.471281 [debug]: Started rendering model dbt_wmagalhaees_staging.stg_orders
+13:02:54.471328 [info ]: Finished loading project [  0.02s]
+13:02:54.472172 [debug]: Compiled SQL for node model.olist_data_pipeline.stg_orders at target/.lsp/compiled/olist_data_pipeline/models/staging/stg_orders.sql
+13:02:54.472277 [debug]: Finished rendering [  0.00s] model dbt_wmagalhaees_staging.stg_orders [success]
+13:02:54.472296 [info ]: Finished rendering [  0.00s] (1 nodes, 0 skipped, 0 errors)
+13:02:54.472337 [info ]: Started analyzing (1 nodes)
+13:02:54.472350 [debug]: Started analyzing model dbt_wmagalhaees_staging.stg_orders
+13:02:54.487401 [debug]: Finished analyzing [  0.02s] model dbt_wmagalhaees_staging.stg_orders [success]
+13:02:54.487432 [info ]: Finished analyzing [  0.02s] (1 nodes, 0 skipped, 0 errors)
+13:02:54.487440 [info ]:  Succeeded [  0.01s] model dbt_wmagalhaees_staging.stg_orders (view)
+13:02:54.490638 [info ]: Started scheduling
+13:02:54.490687 [info ]: Finished scheduling [  0.00s]
+13:02:54.490988 [info ]: Cached model count updated: 1 models (accurate)
+13:03:17.017102 [info ]: Loading profiles.yml
+13:03:17.097235 [info ]: Started loading project
+13:03:17.097448 [info ]: Loading profiles.yml
+13:03:17.118301 [info ]: Finished loading project [  0.02s]
+13:03:17.118547 [info ]: Cached model count updated: 1 models (accurate)
+13:03:18.876867 [info ]: Started loading project
+13:03:18.877103 [info ]: Loading profiles.yml
+13:03:18.898561 [info ]: Cached model count updated: 1 models (estimate)
+13:03:18.898588 [info ]: Cached model count updated: 1 models (accurate)
+13:03:18.898615 [info ]: Started scheduling
+13:03:18.898664 [info ]: Finished scheduling [  0.00s]
+13:03:18.898680 [debug]: Compilation - 1 nodes selected: {"model.olist_data_pipeline.stg_orders"}
+13:03:18.899797 [info ]: Started building task graph
+13:03:18.899836 [info ]: Finished building task graph [  0.00s]
+13:03:18.900431 [info ]: Started rendering (1 nodes)
+13:03:18.900454 [info ]: Started model dbt_wmagalhaees_staging.stg_orders
+13:03:18.900467 [debug]: Started rendering model dbt_wmagalhaees_staging.stg_orders
+13:03:18.900526 [info ]: Finished loading project [  0.02s]
+13:03:18.900706 [debug]: Compiled SQL for node model.olist_data_pipeline.stg_orders at target/.lsp/compiled/olist_data_pipeline/models/staging/stg_orders.sql
+13:03:18.900771 [debug]: Finished rendering [  0.00s] model dbt_wmagalhaees_staging.stg_orders [success]
+13:03:18.900785 [info ]: Finished rendering [  0.00s] (1 nodes, 0 skipped, 0 errors)
+13:03:18.900805 [info ]: Started analyzing (1 nodes)
+13:03:18.900816 [debug]: Started analyzing model dbt_wmagalhaees_staging.stg_orders
+13:03:18.901612 [debug]: Finished analyzing [  0.00s] model dbt_wmagalhaees_staging.stg_orders [success]
+13:03:18.901629 [info ]: Finished analyzing [  0.00s] (1 nodes, 0 skipped, 0 errors)
+13:03:18.901639 [info ]:  Succeeded [-------] model dbt_wmagalhaees_staging.stg_orders (view)
+13:03:18.904316 [info ]: Started scheduling
+13:03:18.904355 [info ]: Finished scheduling [  0.00s]
+13:03:18.904661 [info ]: Cached model count updated: 1 models (accurate)
+13:03:52.477603 [info ]: Started loading project
+13:03:52.477646 [info ]: Finished loading project [  0.00s]
+13:03:52.477766 [info ]: Cached model count updated: 1 models (accurate)
+13:03:54.077275 [info ]: Started loading project
+13:03:54.077334 [info ]: Finished loading project [  0.00s]
+13:03:54.077455 [info ]: Cached model count updated: 1 models (accurate)
