@@ -6,7 +6,7 @@ x-airflow-common: &airflow-common
     AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
     AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "true"
-    _PIP_ADDITIONAL_REQUIREMENTS: "google-cloud-bigquery==3.25.0 pandas==2.2.2 dbt-bigquery==1.8.2"
+    _PIP_ADDITIONAL_REQUIREMENTS: "google-cloud-bigquery pandas dbt-bigquery apache-airflow-providers-dbt-cloud --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.9.3/constraints-3.11.txt"
     GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/keys/gcp-key.json
     GCP_PROJECT_ID: ${GCP_PROJECT_ID}
     BIGQUERY_DATASET_RAW: ${BIGQUERY_DATASET_RAW:-olist_raw}
