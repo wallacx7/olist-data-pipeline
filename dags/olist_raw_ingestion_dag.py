@@ -1,21 +1,27 @@
 """
 DAG: olist_raw_ingestion
 
-Fase 2 do projeto: ingestão simples e crua dos CSVs do dataset Olist para o
-BigQuery (camada raw). Sem sensor, retry customizado ou TaskGroup ainda —
-isso é adicionado na Fase 5, junto com o restante do amadurecimento da
-orquestração (o objetivo aqui é validar o caminho feliz primeiro).
+Fase 5 do projeto: orquestração amadurecida da ingestão dos CSVs do Olist.
 
-Filosofia ELT: nenhuma transformação de dado acontece aqui. Cada task
-apenas pega um CSV e carrega no BigQuery como está. Limpeza, tipagem e
-regras de negócio ficam para o dbt (staging/intermediate/marts).
+Adições em relação à versão inicial (Fase 2):
+- FileSensor: só inicia a carga depois de confirmar que os CSVs existem,
+  simulando um cenário real de "esperar o arquivo chegar" (ex: de um SFTP,
+  bucket, ou processo upstream) em vez de assumir que já está tudo lá.
+- Retries + retry_delay: tolera falhas transitórias (rede, timeout do
+  BigQuery) sem precisar de intervenção manual.
+- TaskGroup: agrupa as 9 tasks de carga visualmente na UI, deixando o grafo
+  mais legível conforme a DAG cresce.
+
+Filosofia ELT mantida: nenhuma transformação de dado acontece aqui.
 """
 from __future__ import annotations
 
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from airflow.decorators import dag, task
+from airflow.sensors.filesystem import FileSensor
+from airflow.utils.task_group import TaskGroup
 
 from gcp_bigquery_utils import load_csv_to_bigquery_raw
 
@@ -36,35 +42,56 @@ TABLES = {
     "product_category_name_translation.csv": "product_category_translation",
 }
 
+default_args = {
+    "retries": 3,
+    "retry_delay": timedelta(minutes=2),
+}
+
 
 @dag(
     dag_id="olist_raw_ingestion",
     description="Carrega os CSVs do dataset Olist (raw) para o BigQuery",
-    schedule=None,  # disparo manual por enquanto; agendamento entra depois
+    schedule=None,  # disparo manual por enquanto
     start_date=datetime(2026, 1, 1),
     catchup=False,
+    default_args=default_args,
     tags=["olist", "raw", "ingestion"],
 )
 def olist_raw_ingestion():
 
-    @task(task_id="load_csv_to_raw")
-    def load_csv(csv_filename: str, table_name: str) -> None:
-        csv_path = os.path.join(DATA_DIR, csv_filename)
-        load_csv_to_bigquery_raw(
-            csv_path=csv_path,
-            table_name=table_name,
-            project_id=PROJECT_ID,
-            dataset_id=DATASET_RAW,
+    # Espera todos os CSVs esperados existirem em data/raw/ antes de seguir.
+    # poke_interval curto porque, neste projeto, os arquivos já estão lá
+    # (não há um processo upstream real depositando-os aos poucos) — mas a
+    # estrutura simula o cenário onde haveria essa espera.
+    wait_for_files = FileSensor(
+        task_id="wait_for_csv_files",
+        filepath=os.path.join(DATA_DIR, list(TABLES.keys())[0]),
+        fs_conn_id="fs_default",
+        poke_interval=10,
+        timeout=60 * 5,
+        mode="reschedule",  # libera o worker enquanto espera, em vez de travar um slot
+    )
+
+    with TaskGroup(group_id="load_raw_tables") as load_raw_tables:
+
+        @task(task_id="load_csv_to_raw")
+        def load_csv(csv_filename: str, table_name: str) -> None:
+            csv_path = os.path.join(DATA_DIR, csv_filename)
+            load_csv_to_bigquery_raw(
+                csv_path=csv_path,
+                table_name=table_name,
+                project_id=PROJECT_ID,
+                dataset_id=DATASET_RAW,
+            )
+
+        load_csv.expand_kwargs(
+            [
+                {"csv_filename": csv_filename, "table_name": table_name}
+                for csv_filename, table_name in TABLES.items()
+            ]
         )
 
-    # Uma task mapeada dinamicamente por arquivo/tabela.
-    # Todas rodam em paralelo (não há dependência entre elas nesta fase).
-    load_csv.expand_kwargs(
-        [
-            {"csv_filename": csv_filename, "table_name": table_name}
-            for csv_filename, table_name in TABLES.items()
-        ]
-    )
+    wait_for_files >> load_raw_tables
 
 
 olist_raw_ingestion()
