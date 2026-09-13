@@ -60,6 +60,14 @@ jobs:
         working-directory: dbt
         run: dbt deps
 
+      - name: Initialize Airflow metadata db
+        # Cosmos caches `dbt ls` results in an Airflow Variable, which needs
+        # the metastore db to exist (the `variable` table) — normally created
+        # by the `airflow-init` service in docker-compose.yml before anything
+        # touches the dags folder. CI never runs that, so DagBag parsing hit
+        # "no such table: variable" the moment Cosmos tried to cache.
+        run: airflow db migrate
+
       - name: Run pytest
         run: pytest tests/ -v
 
