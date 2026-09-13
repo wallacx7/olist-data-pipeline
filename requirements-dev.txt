@@ -1,6 +1,13 @@
 # Dependências para rodar a suíte de testes (tests/) localmente ou no CI.
 # Não é o que roda dentro do container Airflow — isso é definido em
 # docker-compose.yml (_PIP_ADDITIONAL_REQUIREMENTS).
-pytest>=8.0
-google-cloud-bigquery>=3.0
+#
+# Sem versão fixa pro pytest/bigquery de propósito: quem resolve a versão
+# exata é o --constraint do Airflow (mesma URL usada aqui e no
+# docker-compose.yml), que já fixa pytest==7.4.4 e google-cloud-bigquery
+# compatíveis com apache-airflow==2.9.3. Pedir uma versão que o constraints
+# não permite (ex: pytest>=8.0) quebra o `pip install --constraint ...` com
+# um erro de resolução de dependências.
+pytest
+google-cloud-bigquery
 apache-airflow==2.9.3
