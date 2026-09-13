@@ -13,27 +13,23 @@ models:
       - name: product_id
         tests:
           - relationships:
-              arguments:
-                to: ref('dim_produtos')
-                field: product_id
+              to: ref('dim_produtos')
+              field: product_id
       - name: seller_id
         tests:
           - relationships:
-              arguments:
-                to: ref('dim_vendedores')
-                field: seller_id
+              to: ref('dim_vendedores')
+              field: seller_id
       - name: customer_id
         tests:
           - relationships:
-              arguments:
-                to: ref('dim_clientes')
-                field: customer_id
+              to: ref('dim_clientes')
+              field: customer_id
       - name: price
         tests:
           - dbt_utils.accepted_range:
-              arguments:
-                min_value: 0
-                inclusive: true
+              min_value: 0
+              inclusive: true
 
   - name: dim_clientes
     columns:
@@ -64,21 +60,18 @@ models:
       duplicaria payment_value em qualquer pedido com mais de um item.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          arguments:
-            combination_of_columns:
-              - order_id
-              - payment_sequential
+          combination_of_columns:
+            - order_id
+            - payment_sequential
     columns:
       - name: order_id
         tests:
           - not_null
           - relationships:
-              arguments:
-                to: ref('stg_orders')
-                field: order_id
+              to: ref('stg_orders')
+              field: order_id
       - name: payment_value
         tests:
           - dbt_utils.accepted_range:
-              arguments:
-                min_value: 0
-                inclusive: true
+              min_value: 0
+              inclusive: true

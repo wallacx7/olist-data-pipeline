@@ -38,6 +38,7 @@ def test_dag_has_no_cycles_and_has_tasks(dagbag: DagBag, dag_id: str) -> None:
     dag = dagbag.dags[dag_id]
     assert dag is not None
     assert len(dag.tasks) > 0
-    # DagBag já roda o teste de ciclo no processo de parsing (test_cycle),
-    # mas revalidamos explicitamente para deixar a intenção clara aqui.
-    dag.test_cycle()
+    # Ciclo de dependência: o próprio DagBag já detecta isso ao "bagar" a DAG
+    # (uma DAG com ciclo aparece em dagbag.import_errors, pego acima em
+    # test_no_import_errors) — não existe mais um DAG.test_cycle() público
+    # no Airflow 2.9 pra revalidar isso aqui à parte.
