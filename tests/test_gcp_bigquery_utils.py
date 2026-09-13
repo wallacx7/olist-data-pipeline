@@ -102,3 +102,38 @@ def test_logs_warning_when_load_job_has_errors(mock_client_cls, tmp_path, caplog
         )
 
     assert any("malformada" in record.message for record in caplog.records)
+
+
+@patch("gcp_bigquery_utils.bigquery.Client")
+def test_freshness_stamp_failure_does_not_fail_the_load(mock_client_cls, tmp_path, caplog):
+    """
+    O projeto GCP real usado neste repo não tem billing habilitado, e o
+    tier gratuito do BigQuery rejeita DML ("DML queries are not allowed in
+    the free tier") — foi assim, rodando de verdade via Docker, que esse
+    caso apareceu. O carimbo de _loaded_at é um extra (dbt source
+    freshness); a carga do CSV em si não pode falhar por causa dele.
+    """
+    csv_path = tmp_path / "olist_orders_dataset.csv"
+    csv_path.write_text("order_id,customer_id\n1,10\n", encoding="utf-8")
+
+    mock_client = MagicMock()
+    mock_client_cls.return_value = mock_client
+    mock_client.get_table.return_value = MagicMock(num_rows=1)
+
+    mock_load_job = MagicMock()
+    mock_load_job.errors = None
+    mock_client.load_table_from_file.return_value = mock_load_job
+
+    mock_client.query.side_effect = Exception(
+        "400 Billing has not been enabled for this project."
+    )
+
+    with caplog.at_level(logging.WARNING):
+        load_csv_to_bigquery_raw(
+            csv_path=str(csv_path),
+            table_name="orders",
+            project_id="fake-project",
+            dataset_id="olist_raw",
+        )  # não deve levantar, mesmo com o carimbo falhando
+
+    assert any("_loaded_at" in record.message for record in caplog.records)

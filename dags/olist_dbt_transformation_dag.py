@@ -27,7 +27,8 @@ from datetime import datetime
 
 from airflow.datasets import Dataset
 from airflow.decorators import dag
-from cosmos import DbtTaskGroup, ExecutionConfig, ProfileConfig, ProjectConfig
+from cosmos import DbtTaskGroup, ExecutionConfig, ProfileConfig, ProjectConfig, RenderConfig
+from cosmos.constants import TestBehavior
 
 # Mesmo Dataset (por URI) referenciado em 'olist_raw_ingestion_dag.py':
 # o Airflow casa os dois lados pela URI, não é preciso importar entre DAGs.
@@ -41,7 +42,10 @@ OLIST_RAW_DATASET = Dataset("bigquery://olist_raw")
 DBT_PROJECT_DIR = os.environ.get("DBT_PROJECT_DIR", "/opt/airflow/dbt")
 DBT_PROFILES_DIR = os.environ.get("DBT_PROFILES_DIR", "/opt/airflow/dbt_profiles")
 
-project_config = ProjectConfig(dbt_project_path=DBT_PROJECT_DIR)
+project_config = ProjectConfig(
+    dbt_project_path=DBT_PROJECT_DIR,
+    install_dbt_deps=True,  # `dbt deps` (dbt_utils) antes de rodar
+)
 
 profile_config = ProfileConfig(
     profile_name="olist_data_pipeline",
@@ -52,6 +56,15 @@ profile_config = ProfileConfig(
 # ExecutionMode.LOCAL (default): usa o dbt-bigquery já instalado no worker do
 # Airflow via _PIP_ADDITIONAL_REQUIREMENTS, sem precisar de venv/docker extra.
 execution_config = ExecutionConfig()
+
+# TestBehavior.AFTER_ALL em vez do default (AFTER_EACH): o teste
+# `relationships` de fct_pagamentos.order_id -> stg_orders.order_id cruza
+# staging -> marts. Com AFTER_EACH, o Cosmos prendeu esse teste ao grupo de
+# testes do stg_orders (que roda logo após a staging), antes de fct_pagamentos
+# sequer existir — "Not found: Table ...fct_pagamentos". Rodar todos os
+# testes só depois de todos os models (AFTER_ALL) elimina essa classe de
+# problema de ordenação para qualquer teste que cruze camadas.
+render_config = RenderConfig(test_behavior=TestBehavior.AFTER_ALL)
 
 
 @dag(
@@ -69,9 +82,7 @@ def olist_dbt_transformation():
         project_config=project_config,
         profile_config=profile_config,
         execution_config=execution_config,
-        operator_args={
-            "install_deps": True,  # `dbt deps` (dbt_utils) antes de rodar
-        },
+        render_config=render_config,
     )
 
 

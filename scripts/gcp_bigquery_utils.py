@@ -109,11 +109,27 @@ def _stamp_loaded_at(
     WRITE_TRUNCATE substitui a tabela inteira a cada execução, então um UPDATE
     sem WHERE é seguro aqui (não corre risco de "esquecer" linhas de execuções
     antigas misturadas com novas).
+
+    Best-effort: isso é um DML (UPDATE), que o tier gratuito do BigQuery (sem
+    billing habilitado no projeto) rejeita com "DML queries are not allowed
+    in the free tier". Carregar o dado é o objetivo real desta função — a
+    task de ingestão não deve falhar (e travar o pipeline inteiro) só porque
+    o freshness-tracking, um extra, não pôde ser aplicado nesse projeto.
     """
     fq_table = f"`{project_id}.{dataset_id}.{table_name}`"
-    client.query(
-        f"""
-        ALTER TABLE {fq_table} ADD COLUMN IF NOT EXISTS _loaded_at TIMESTAMP;
-        UPDATE {fq_table} SET _loaded_at = CURRENT_TIMESTAMP() WHERE TRUE;
-        """
-    ).result()
+    try:
+        client.query(
+            f"""
+            ALTER TABLE {fq_table} ADD COLUMN IF NOT EXISTS _loaded_at TIMESTAMP;
+            UPDATE {fq_table} SET _loaded_at = CURRENT_TIMESTAMP() WHERE TRUE;
+            """
+        ).result()
+    except Exception:
+        logger.warning(
+            "Não foi possível carimbar _loaded_at em %s.%s.%s (dbt source "
+            "freshness não vai funcionar pra essa tabela) — provável causa: "
+            "billing desabilitado no projeto GCP, que bloqueia DML no tier "
+            "gratuito. A carga em si foi concluída normalmente.",
+            project_id, dataset_id, table_name,
+            exc_info=True,
+        )
