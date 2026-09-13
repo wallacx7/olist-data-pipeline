@@ -11,3 +11,12 @@
 pytest
 google-cloud-bigquery
 apache-airflow==2.9.3
+astronomer-cosmos
+dbt-bigquery
+
+# Nota (Windows): apache-airflow não roda nativamente no Windows (usa `fcntl`,
+# módulo só-POSIX) — apache-airflow só é suportado via WSL2 ou containers
+# Linux. Em Windows nativo, `pytest tests/` roda os testes do loader normal,
+# mas tests/test_dagbag.py sempre vai pular (`pytest.importorskip`) ou falhar
+# na importação do airflow. O CI (.github/workflows/ci.yml) roda em
+# ubuntu-latest, onde isso não é um problema.

@@ -10,6 +10,15 @@ jobs:
   pytest:
     name: Python tests (utils + DAG import)
     runs-on: ubuntu-latest
+    env:
+      # DagBag parsing imports both DAG files, and olist_raw_ingestion_dag.py
+      # reads GCP_PROJECT_ID at module scope (os.environ["GCP_PROJECT_ID"]) —
+      # without it, importing that DAG raises KeyError. Placeholder value only;
+      # no BigQuery call is ever made by these tests.
+      GCP_PROJECT_ID: ci-placeholder-project
+      # Keeps Airflow's default sqlite metadata db inside the runner's
+      # workspace instead of touching the runner's home directory.
+      AIRFLOW_HOME: ${{ github.workspace }}/.airflow_home
     steps:
       - uses: actions/checkout@v4
 
