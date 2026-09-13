@@ -41,6 +41,9 @@ def load_csv_to_bigquery_raw(
       malformadas em vez de falhar a carga inteira por causa de um punhado
       de linhas com aspas mal-fechadas.
 
+    Ao final, carimba a tabela com uma coluna `_loaded_at` (ver
+    `_stamp_loaded_at`), usada pelo `dbt source freshness`.
+
     Levanta exceção se o arquivo não existir ou se o job do BigQuery falhar,
     para que a task do Airflow marque falha corretamente (e não passe batido).
     """
@@ -83,3 +86,34 @@ def load_csv_to_bigquery_raw(
             "(tolerância configurada via max_bad_records). Detalhes: %s",
             len(load_job.errors), table_name, load_job.errors[:3],
         )
+
+    _stamp_loaded_at(client, project_id, dataset_id, table_name)
+
+
+def _stamp_loaded_at(
+    client: "bigquery.Client",
+    project_id: str,
+    dataset_id: str,
+    table_name: str,
+) -> None:
+    """
+    Marca a linha inteira com o timestamp desta carga em `_loaded_at`.
+
+    O dataset Olist é estático e só tem timestamps de negócio (ex:
+    order_purchase_timestamp) — nenhum deles diz "quando essa tabela raw foi
+    carregada", que é o que o `dbt source freshness` (models/staging/sources.yml)
+    precisa pra funcionar. Em vez de inferir isso de metadata do BigQuery,
+    carimbamos explicitamente logo após o load: mais simples e não depende de
+    comportamento interno do BigQuery que pode mudar.
+
+    WRITE_TRUNCATE substitui a tabela inteira a cada execução, então um UPDATE
+    sem WHERE é seguro aqui (não corre risco de "esquecer" linhas de execuções
+    antigas misturadas com novas).
+    """
+    fq_table = f"`{project_id}.{dataset_id}.{table_name}`"
+    client.query(
+        f"""
+        ALTER TABLE {fq_table} ADD COLUMN IF NOT EXISTS _loaded_at TIMESTAMP;
+        UPDATE {fq_table} SET _loaded_at = CURRENT_TIMESTAMP() WHERE TRUE;
+        """
+    ).result()

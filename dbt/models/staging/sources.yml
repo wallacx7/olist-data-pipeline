@@ -1,0 +1,36 @@
+version: 2
+
+sources:
+  - name: olist_raw
+    description: >
+      Dados crus do dataset público Olist (e-commerce brasileiro), carregados
+      pelo Airflow via ingestão ELT (sem transformação, schema autodetectado).
+    database: olist-data-pipeline-503121
+    schema: olist_raw
+    # `_loaded_at` é carimbada pelo loader (scripts/gcp_bigquery_utils.py) logo
+    # após cada carga — o dataset Olist só tem timestamps de negócio (ex:
+    # order_purchase_timestamp), nenhum deles serve pra medir se a ingestão em
+    # si está desatualizada. Rodar com `dbt source freshness` (dentro de dbt/).
+    loaded_at_field: _loaded_at
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 72, period: hour}
+    tables:
+      - name: orders
+        description: Pedidos realizados na plataforma.
+      - name: customers
+        description: Clientes cadastrados.
+      - name: order_items
+        description: Itens (produtos) que compõem cada pedido.
+      - name: products
+        description: Catálogo de produtos.
+      - name: sellers
+        description: Vendedores (marketplace) da plataforma.
+      - name: order_payments
+        description: Pagamentos associados a cada pedido.
+      - name: order_reviews
+        description: Avaliações (reviews) feitas pelos clientes sobre os pedidos.
+      - name: geolocation
+        description: Dados de geolocalização por CEP.
+      - name: product_category_translation
+        description: Tradução dos nomes de categoria de produto (PT → EN).

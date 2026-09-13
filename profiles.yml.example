@@ -1,0 +1,10 @@
+olist_data_pipeline:
+  target: default
+  outputs:
+    default:
+      type: bigquery
+      method: service-account
+      project: your-gcp-project-id
+      dataset: your_dev_schema
+      keyfile: /opt/airflow/keys/gcp-key.json
+      threads: 4

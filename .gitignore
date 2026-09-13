@@ -3,6 +3,7 @@
 keys/
 *.json
 !dbt/**/*.json
+profiles.yml
 
 # Airflow
 logs/
@@ -15,6 +16,8 @@ dbt/target/
 dbt/dbt_packages/
 dbt/logs/
 dbt/.user.yml
+target/
+dbt_packages/
 
 # Dados brutos (não versionar CSVs grandes)
 data/raw/*.csv
@@ -23,6 +26,7 @@ data/raw/*.csv
 __pycache__/
 *.pyc
 .venv/
+.pytest_cache/
 
 # OS
 .DS_Store

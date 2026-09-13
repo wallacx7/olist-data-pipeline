@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  pytest:
+    name: Python tests (utils + DAG import)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.9.3/constraints-3.11.txt \
+            -r requirements-dev.txt
+
+      - name: Run pytest
+        run: pytest tests/ -v
+
+  dbt-parse:
+    name: dbt project sanity check (no warehouse connection)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dbt-bigquery
+        run: pip install dbt-bigquery
+
+      - name: Write a dummy profile (no real credentials involved)
+        # `dbt parse` only needs a profile that *resolves* — it does not open
+        # a connection to BigQuery. This catches Jinja/YAML/ref errors (e.g.
+        # broken `{{ ref() }}`, missing sources) on every push, without
+        # needing real GCP secrets in this repo.
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml <<'EOF'
+          olist_data_pipeline:
+            target: default
+            outputs:
+              default:
+                type: bigquery
+                method: service-account
+                project: ci-placeholder-project
+                dataset: ci_placeholder
+                keyfile: /dev/null
+                threads: 1
+          EOF
+
+      - name: dbt deps
+        working-directory: dbt
+        run: dbt deps
+
+      - name: dbt parse
+        working-directory: dbt
+        run: dbt parse

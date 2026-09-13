@@ -1,47 +1,72 @@
 """
 DAG: olist_dbt_transformation
 
-Fase 5 (parte 2) do projeto: dispara o job de transformação do dbt Cloud
-(staging -> marts, via `dbt build`) a partir do Airflow, usando a API do
-dbt Cloud (DbtCloudRunJobOperator).
+Fase 5 (parte 2), revisada: antes disparava um job do dbt Cloud via API
+(DbtCloudRunJobOperator). Migrado para dbt Core rodando dentro do próprio
+worker do Airflow, orquestrado pelo astronomer-cosmos — cada model, teste
+e snapshot do projeto dbt vira uma task individual no grafo do Airflow,
+em vez de uma única caixa-preta "rodou o job".
 
-Isso demonstra um padrão comum em produção: o Airflow orquestra o *quando*
-e a *ordem* das coisas rodarem, mas delega a *execução* da transformação
-para uma plataforma gerenciada especializada (dbt Cloud), em vez de rodar
-dbt localmente dentro do worker do Airflow.
+Motivo da migração: a conta dbt Cloud voltou para o plano Developer
+(gratuito) após o fim do trial, e esse plano não tem acesso às APIs do
+dbt Cloud — Administrative e Discovery API são exclusivas dos planos
+Starter, Enterprise e Enterprise+. O DbtCloudRunJobOperator passou a
+falhar (401/403) ao tentar disparar o job. Como este é um projeto de
+estudo (não produtivo), dbt Core local resolve sem depender de plano
+pago — com o bônus de dar lineage por model dentro do próprio Airflow,
+em vez de um retângulo único "trigger dbt Cloud".
 
-Depende da task 'load_raw_tables' da DAG 'olist_raw_ingestion' ter sido
-concluída antes de rodar (a orquestração entre as duas DAGs, via sensor
-ou trigger, fica para uma iteração futura — por ora, disparo manual).
+Dispara automaticamente quando 'olist_raw_ingestion' concluir a carga
+das tabelas raw, via agendamento data-aware (Dataset) — substitui o
+disparo manual anterior.
 """
 from __future__ import annotations
 
+import os
 from datetime import datetime
 
+from airflow.datasets import Dataset
 from airflow.decorators import dag
-from airflow.providers.dbt.cloud.operators.dbt import DbtCloudRunJobOperator
+from cosmos import DbtTaskGroup, ExecutionConfig, ProfileConfig, ProjectConfig
 
-DBT_CLOUD_CONN_ID = "dbt_cloud_default"
-DBT_CLOUD_JOB_ID = 70506183136068
+# Mesmo Dataset (por URI) referenciado em 'olist_raw_ingestion_dag.py':
+# o Airflow casa os dois lados pela URI, não é preciso importar entre DAGs.
+OLIST_RAW_DATASET = Dataset("bigquery://olist_raw")
+
+DBT_PROJECT_DIR = "/opt/airflow/dbt"
+DBT_PROFILES_DIR = "/opt/airflow/dbt_profiles"
+
+project_config = ProjectConfig(dbt_project_path=DBT_PROJECT_DIR)
+
+profile_config = ProfileConfig(
+    profile_name="olist_data_pipeline",
+    target_name="default",
+    profiles_yml_filepath=os.path.join(DBT_PROFILES_DIR, "profiles.yml"),
+)
+
+# ExecutionMode.LOCAL (default): usa o dbt-bigquery já instalado no worker do
+# Airflow via _PIP_ADDITIONAL_REQUIREMENTS, sem precisar de venv/docker extra.
+execution_config = ExecutionConfig()
 
 
 @dag(
     dag_id="olist_dbt_transformation",
-    description="Dispara o job dbt Cloud (staging + marts) via API",
-    schedule=None,  # disparo manual por enquanto
+    description="Roda staging + marts + tests + snapshot via dbt Core (Cosmos)",
+    schedule=[OLIST_RAW_DATASET],
     start_date=datetime(2026, 1, 1),
     catchup=False,
     tags=["olist", "dbt", "transformation"],
 )
 def olist_dbt_transformation():
 
-    run_dbt_job = DbtCloudRunJobOperator(
-        task_id="run_staging_and_marts",
-        dbt_cloud_conn_id=DBT_CLOUD_CONN_ID,
-        job_id=DBT_CLOUD_JOB_ID,
-        check_interval=15,  # segundos entre verificações de status
-        timeout=60 * 15,    # desiste após 15 minutos
-        wait_for_termination=True,  # task só finaliza quando o job do dbt terminar
+    DbtTaskGroup(
+        group_id="dbt_build",
+        project_config=project_config,
+        profile_config=profile_config,
+        execution_config=execution_config,
+        operator_args={
+            "install_deps": True,  # `dbt deps` (dbt_utils) antes de rodar
+        },
     )
 
 

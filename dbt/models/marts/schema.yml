@@ -55,3 +55,30 @@ models:
         tests:
           - unique
           - not_null
+
+  - name: fct_pagamentos
+    description: >
+      Tabela fato com grão de pagamento (order_id + payment_sequential).
+      Mantida separada de fct_pedidos (grão de item) de propósito: pagamento
+      é registrado por pedido, então juntá-lo direto no fato de itens
+      duplicaria payment_value em qualquer pedido com mais de um item.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - order_id
+              - payment_sequential
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_orders')
+                field: order_id
+      - name: payment_value
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                inclusive: true

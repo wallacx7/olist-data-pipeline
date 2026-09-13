@@ -13,12 +13,18 @@ Adições em relação à versão inicial (Fase 2):
   mais legível conforme a DAG cresce.
 
 Filosofia ELT mantida: nenhuma transformação de dado acontece aqui.
+
+Agendamento: roda diariamente (`schedule="@daily"`) em vez de só disparo manual —
+o dataset Olist em si é estático, então cada execução recarrega os mesmos dados
+(idempotente, WRITE_TRUNCATE), mas a estrutura simula o cenário real de um pipeline
+batch recorrente (ex: uma carga diária de um sistema upstream).
 """
 from __future__ import annotations
 
 import os
 from datetime import datetime, timedelta
 
+from airflow.datasets import Dataset
 from airflow.decorators import dag, task
 from airflow.sensors.filesystem import FileSensor
 from airflow.utils.task_group import TaskGroup
@@ -28,6 +34,10 @@ from gcp_bigquery_utils import load_csv_to_bigquery_raw
 DATA_DIR = "/opt/airflow/data/raw"
 PROJECT_ID = os.environ["GCP_PROJECT_ID"]
 DATASET_RAW = os.environ.get("BIGQUERY_DATASET_RAW", "olist_raw")
+
+# Emitido quando a carga raw termina; 'olist_dbt_transformation' escuta essa
+# mesma URI (agendamento data-aware) para disparar automaticamente.
+OLIST_RAW_DATASET = Dataset("bigquery://olist_raw")
 
 # Mapeia: nome do arquivo CSV -> nome da tabela raw no BigQuery
 TABLES = {
@@ -51,7 +61,7 @@ default_args = {
 @dag(
     dag_id="olist_raw_ingestion",
     description="Carrega os CSVs do dataset Olist (raw) para o BigQuery",
-    schedule=None,  # disparo manual por enquanto
+    schedule="@daily",
     start_date=datetime(2026, 1, 1),
     catchup=False,
     default_args=default_args,
@@ -91,7 +101,15 @@ def olist_raw_ingestion():
             ]
         )
 
-    wait_for_files >> load_raw_tables
+    @task(task_id="raw_ingestion_done", outlets=[OLIST_RAW_DATASET])
+    def raw_ingestion_done() -> None:
+        # Task "marcadora": só existe para emitir o Dataset uma única vez,
+        # depois que TODAS as 9 tasks mapeadas do TaskGroup terminarem — se
+        # o outlet fosse posto direto na task mapeada, cada instância
+        # dispararia o evento (e a DAG de transformação) separadamente.
+        pass
+
+    wait_for_files >> load_raw_tables >> raw_ingestion_done()
 
 
 olist_raw_ingestion()

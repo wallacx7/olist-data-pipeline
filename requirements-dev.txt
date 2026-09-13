@@ -1,0 +1,6 @@
+# Dependências para rodar a suíte de testes (tests/) localmente ou no CI.
+# Não é o que roda dentro do container Airflow — isso é definido em
+# docker-compose.yml (_PIP_ADDITIONAL_REQUIREMENTS).
+pytest>=8.0
+google-cloud-bigquery>=3.0
+apache-airflow==2.9.3
