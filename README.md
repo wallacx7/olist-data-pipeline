@@ -268,13 +268,3 @@ Airflow.
 - [x] Both DAGs run on a recurring schedule — no manual trigger required
       (`olist_raw_ingestion`: `@daily`; `olist_dbt_transformation`: Dataset-triggered)
 
-## Possible next steps
-
-- Wire `dbt source freshness` into the Airflow DAG (currently a manual command) and/or
-  run a full `dbt build` in CI — both need a GCP service-account secret in GitHub,
-  deliberately left as a manual decision for this study repo.
-
----
-
-*Personal project for Data Engineering practice — Airflow, dbt Core/Cosmos, and
-dimensional modeling on GCP/BigQuery.*
