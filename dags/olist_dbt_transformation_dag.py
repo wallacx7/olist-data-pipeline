@@ -33,8 +33,13 @@ from cosmos import DbtTaskGroup, ExecutionConfig, ProfileConfig, ProjectConfig
 # o Airflow casa os dois lados pela URI, não é preciso importar entre DAGs.
 OLIST_RAW_DATASET = Dataset("bigquery://olist_raw")
 
-DBT_PROJECT_DIR = "/opt/airflow/dbt"
-DBT_PROFILES_DIR = "/opt/airflow/dbt_profiles"
+# Cosmos lê o projeto dbt e o profile já no *parse* da DAG (para montar o
+# grafo de tasks), não só na execução — por isso esses caminhos precisam
+# existir também fora do container (ex: no DagBag import test do CI).
+# Default = caminhos reais dentro do container Airflow; sobrescrito via env
+# var só em ambientes de teste (ver .github/workflows/ci.yml).
+DBT_PROJECT_DIR = os.environ.get("DBT_PROJECT_DIR", "/opt/airflow/dbt")
+DBT_PROFILES_DIR = os.environ.get("DBT_PROFILES_DIR", "/opt/airflow/dbt_profiles")
 
 project_config = ProjectConfig(dbt_project_path=DBT_PROJECT_DIR)
 

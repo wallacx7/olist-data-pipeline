@@ -19,6 +19,11 @@ jobs:
       # Keeps Airflow's default sqlite metadata db inside the runner's
       # workspace instead of touching the runner's home directory.
       AIRFLOW_HOME: ${{ github.workspace }}/.airflow_home
+      # olist_dbt_transformation_dag.py reads these to locate the dbt project
+      # and profile — defaults to /opt/airflow/... (container-only paths), so
+      # here they're pointed at the checkout and a CI-only profile instead.
+      DBT_PROJECT_DIR: ${{ github.workspace }}/dbt
+      DBT_PROFILES_DIR: ${{ github.workspace }}/.dbt_profiles_ci
     steps:
       - uses: actions/checkout@v4
 
@@ -30,6 +35,30 @@ jobs:
         run: |
           pip install --constraint https://raw.githubusercontent.com/apache/airflow/constraints-2.9.3/constraints-3.11.txt \
             -r requirements-dev.txt
+
+      - name: Write a dummy dbt profile (no real credentials involved)
+        # Cosmos reads the dbt project + profile while *parsing* the DAG
+        # (to build the task graph), not just when it runs — the DagBag
+        # import test below needs a resolvable profile for the same reason
+        # `dbt parse` does in the other job. No real GCP connection happens.
+        run: |
+          mkdir -p "$DBT_PROFILES_DIR"
+          cat > "$DBT_PROFILES_DIR/profiles.yml" <<'EOF'
+          olist_data_pipeline:
+            target: default
+            outputs:
+              default:
+                type: bigquery
+                method: service-account
+                project: ci-placeholder-project
+                dataset: ci_placeholder
+                keyfile: /dev/null
+                threads: 1
+          EOF
+
+      - name: dbt deps
+        working-directory: dbt
+        run: dbt deps
 
       - name: Run pytest
         run: pytest tests/ -v
